@@ -17,6 +17,7 @@ interface ChartCardProps {
   actions?: ReactNode;
   onExport?: () => void;
   onExpand?: () => void;
+  onClick?: () => void;
   loading?: boolean;
 }
 
@@ -28,14 +29,17 @@ export function ChartCard({
   actions,
   onExport,
   onExpand,
+  onClick,
   loading = false,
 }: ChartCardProps) {
   return (
     <div
       className={cn(
         "glass-card rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl",
+        onClick && "cursor-pointer",
         className
       )}
+      onClick={onClick}
     >
       {/* Header */}
       <div className="flex items-start justify-between p-6 pb-4 border-b border-border/50">
