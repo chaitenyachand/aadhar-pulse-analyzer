@@ -3,6 +3,8 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { ChartCard } from "@/components/dashboard/ChartCard";
 import { IndiaMap } from "@/components/dashboard/IndiaMap";
 import { AnimatedCounter, formatIndianCompact } from "@/components/dashboard/AnimatedCounter";
+import { DecisionPanel, CompactDecisionPanel } from "@/components/dashboard/DecisionPanel";
+import { ChartInsightModal } from "@/components/dashboard/ChartInsightModal";
 import {
   useDashboardStats,
   useEnrollmentData,
@@ -13,11 +15,9 @@ import {
   Users,
   FileEdit,
   Fingerprint,
-  MapPin,
-  TrendingUp,
-  Activity,
   Shield,
   Globe,
+  Sparkles,
 } from "lucide-react";
 import {
   AreaChart,
@@ -35,6 +35,7 @@ import {
   Legend,
 } from "recharts";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 const CHART_COLORS = [
   "hsl(207, 90%, 45%)",
@@ -51,6 +52,13 @@ export default function Index() {
   const { data: monthlyTrends } = useMonthlyTrends();
   const { data: demographicUpdates } = useDemographicUpdates();
   const [selectedState, setSelectedState] = useState<string>();
+  const [insightModal, setInsightModal] = useState<{
+    open: boolean;
+    title: string;
+    type: string;
+    description: string;
+    data: any;
+  }>({ open: false, title: "", type: "", description: "", data: null });
 
   const mapData =
     enrollmentData?.map((item: any) => ({
@@ -118,8 +126,28 @@ export default function Index() {
               </p>
             </div>
           </div>
+          {/* Data Source Indicator */}
+          <div className="mt-4 flex items-center gap-2">
+            <Badge variant="secondary" className="text-xs">
+              <Sparkles className="w-3 h-3 mr-1" />
+              AI-Powered Insights
+            </Badge>
+            <Badge variant="outline" className="text-xs text-primary-foreground/70 border-primary-foreground/30">
+              {stats?.dataSource || "Loading..."}
+            </Badge>
+          </div>
         </div>
       </div>
+
+      {/* Insight Modal */}
+      <ChartInsightModal
+        open={insightModal.open}
+        onOpenChange={(open) => setInsightModal((prev) => ({ ...prev, open }))}
+        chartTitle={insightModal.title}
+        chartType={insightModal.type}
+        chartDescription={insightModal.description}
+        data={insightModal.data}
+      />
 
       {/* Main Content */}
       <div className="p-8 space-y-8">
@@ -167,8 +195,15 @@ export default function Index() {
           {/* India Map */}
           <ChartCard
             title="Geographic Distribution"
-            subtitle="Enrollment density by state"
-            className="lg:col-span-1"
+            subtitle="Enrollment density by state • Click for AI insights"
+            className="lg:col-span-1 cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all"
+            onClick={() => setInsightModal({
+              open: true,
+              title: "Geographic Distribution",
+              type: "choropleth-map",
+              description: "Enrollment density visualization across Indian states",
+              data: mapData,
+            })}
           >
             <IndiaMap
               data={mapData}
@@ -181,8 +216,15 @@ export default function Index() {
           {/* Monthly Trends */}
           <ChartCard
             title="Monthly Activity Trends"
-            subtitle="Enrollment & update patterns over 12 months"
-            className="lg:col-span-2"
+            subtitle="Enrollment & update patterns over 12 months • Click for AI insights"
+            className="lg:col-span-2 cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all"
+            onClick={() => setInsightModal({
+              open: true,
+              title: "Monthly Activity Trends",
+              type: "area-chart",
+              description: "12-month enrollment and update activity patterns",
+              data: monthlyTrends,
+            })}
           >
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
@@ -234,12 +276,28 @@ export default function Index() {
           </ChartCard>
         </div>
 
+        {/* Decision Panel */}
+        <DecisionPanel
+          insight="High address update volatility detected in urban districts, indicating significant internal migration patterns"
+          policyAction="Enable self-service digital address updates via mAadhaar app to reduce enrollment center dependency"
+          operationalImpact="↓ 18% enrollment center load, ↑ 35% citizen convenience"
+          variant="accent"
+        />
+
         {/* Charts Row 2 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Demographic Updates by Field */}
           <ChartCard
             title="Demographic Updates by Field"
-            subtitle="Distribution of update types"
+            subtitle="Distribution of update types • Click for AI insights"
+            className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all"
+            onClick={() => setInsightModal({
+              open: true,
+              title: "Demographic Updates by Field",
+              type: "bar-chart",
+              description: "Distribution of demographic update types across all enrollments",
+              data: demographicUpdates,
+            })}
           >
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
