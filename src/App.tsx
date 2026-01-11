@@ -10,6 +10,9 @@ import BiometricLifecycle from "./pages/BiometricLifecycle";
 import MigrationCorridors from "./pages/MigrationCorridors";
 import DigitalInclusion from "./pages/DigitalInclusion";
 import AnomalyDetection from "./pages/AnomalyDetection";
+import Predictions from "./pages/Predictions";
+import ExportReport from "./pages/ExportReport";
+import Documentation from "./pages/Documentation";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,9 +31,9 @@ const App = () => (
           <Route path="/migration" element={<MigrationCorridors />} />
           <Route path="/digital-inclusion" element={<DigitalInclusion />} />
           <Route path="/anomalies" element={<AnomalyDetection />} />
-          <Route path="/predictions" element={<Index />} />
-          <Route path="/export" element={<Index />} />
-          <Route path="/settings" element={<Index />} />
+          <Route path="/predictions" element={<Predictions />} />
+          <Route path="/export" element={<ExportReport />} />
+          <Route path="/settings" element={<Documentation />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
