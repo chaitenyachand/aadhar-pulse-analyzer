@@ -54,12 +54,22 @@ export function ChartInsightModal({
   const [insight, setInsight] = useState<ChartInsight | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastChartKey, setLastChartKey] = useState<string>("");
+
+  // Create a unique key for each chart based on title and type
+  const chartKey = `${chartType}-${chartTitle}`;
 
   useEffect(() => {
-    if (open && !insight) {
+    // Reset insight when a different chart is opened
+    if (open && chartKey !== lastChartKey) {
+      setInsight(null);
+      setError(null);
+      setLastChartKey(chartKey);
+      generateInsight();
+    } else if (open && !insight && !loading) {
       generateInsight();
     }
-  }, [open]);
+  }, [open, chartKey]);
 
   const generateInsight = async () => {
     setLoading(true);
