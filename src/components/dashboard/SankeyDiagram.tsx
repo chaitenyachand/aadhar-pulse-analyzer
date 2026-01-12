@@ -41,29 +41,55 @@ export function SankeyDiagram({
 }: SankeyDiagramProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const { nodes, links } = useMemo(() => {
+const { nodes, links } = useMemo(() => {
     if (!data || data.length === 0) {
       return { nodes: [], links: [] };
     }
 
     // Create unique nodes for sources and targets
-    const sourceNodes = [...new Set(data.map((d) => d.from))];
-    const targetNodes = [...new Set(data.map((d) => d.to))];
+    const sourceNames = [...new Set(data.map((d) => d.from))];
+    const targetNames = [...new Set(data.map((d) => d.to))];
     
-    // Ensure target nodes are distinct from source nodes in the layout
-    const nodes: NodeData[] = [
-      ...sourceNodes.map((name) => ({ name, type: "source" as const })),
-      ...targetNodes.map((name) => ({ name: `${name}_dest`, type: "target" as const })),
-    ];
+    // Create nodes with unique identifiers
+    const nodes: NodeData[] = [];
+    const nodeNameToIndex = new Map<string, number>();
+    
+    // Add source nodes
+    sourceNames.forEach((name) => {
+      const key = `source_${name}`;
+      if (!nodeNameToIndex.has(key)) {
+        nodeNameToIndex.set(key, nodes.length);
+        nodes.push({ name, type: "source" as const });
+      }
+    });
+    
+    // Add target nodes (separate from sources even if same name)
+    targetNames.forEach((name) => {
+      const key = `target_${name}`;
+      if (!nodeNameToIndex.has(key)) {
+        nodeNameToIndex.set(key, nodes.length);
+        nodes.push({ name: `${name}_dest`, type: "target" as const });
+      }
+    });
 
-    const nodeIndex = new Map(nodes.map((n, i) => [n.name, i]));
-
-    const links: LinkData[] = data.map((d) => ({
-      source: nodeIndex.get(d.from)!,
-      target: nodeIndex.get(`${d.to}_dest`)!,
-      value: d.flow,
-      confidence: d.confidence,
-    }));
+    // Create links with valid indices
+    const links: LinkData[] = data
+      .map((d) => {
+        const sourceIdx = nodeNameToIndex.get(`source_${d.from}`);
+        const targetIdx = nodeNameToIndex.get(`target_${d.to}`);
+        
+        if (sourceIdx === undefined || targetIdx === undefined) {
+          return null;
+        }
+        
+        return {
+          source: sourceIdx,
+          target: targetIdx,
+          value: Math.max(1, d.flow), // Ensure positive value
+          confidence: d.confidence,
+        };
+      })
+      .filter((link): link is LinkData => link !== null);
 
     return { nodes, links };
   }, [data]);

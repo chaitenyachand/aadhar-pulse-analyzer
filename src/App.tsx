@@ -13,6 +13,7 @@ import AnomalyDetection from "./pages/AnomalyDetection";
 import Predictions from "./pages/Predictions";
 import ExportReport from "./pages/ExportReport";
 import Documentation from "./pages/Documentation";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,7 +34,8 @@ const App = () => (
           <Route path="/anomalies" element={<AnomalyDetection />} />
           <Route path="/predictions" element={<Predictions />} />
           <Route path="/export" element={<ExportReport />} />
-          <Route path="/settings" element={<Documentation />} />
+          <Route path="/documentation" element={<Documentation />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
