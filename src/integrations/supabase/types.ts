@@ -16,6 +16,8 @@ export type Database = {
     Tables: {
       aadhaar_biometric_update: {
         Row: {
+          bio_age_17_plus: number | null
+          bio_age_5_17: number | null
           created_at: string
           date: string
           district: string | null
@@ -28,6 +30,8 @@ export type Database = {
           total_updates: number | null
         }
         Insert: {
+          bio_age_17_plus?: number | null
+          bio_age_5_17?: number | null
           created_at?: string
           date: string
           district?: string | null
@@ -40,6 +44,8 @@ export type Database = {
           total_updates?: number | null
         }
         Update: {
+          bio_age_17_plus?: number | null
+          bio_age_5_17?: number | null
           created_at?: string
           date?: string
           district?: string | null
@@ -58,6 +64,8 @@ export type Database = {
           address_updates: number | null
           created_at: string
           date: string
+          demo_age_17_plus: number | null
+          demo_age_5_17: number | null
           district: string | null
           dob_updates: number | null
           email_updates: number | null
@@ -73,6 +81,8 @@ export type Database = {
           address_updates?: number | null
           created_at?: string
           date: string
+          demo_age_17_plus?: number | null
+          demo_age_5_17?: number | null
           district?: string | null
           dob_updates?: number | null
           email_updates?: number | null
@@ -88,6 +98,8 @@ export type Database = {
           address_updates?: number | null
           created_at?: string
           date?: string
+          demo_age_17_plus?: number | null
+          demo_age_5_17?: number | null
           district?: string | null
           dob_updates?: number | null
           email_updates?: number | null
@@ -98,6 +110,63 @@ export type Database = {
           pincode?: string | null
           state?: string
           total_updates?: number | null
+        }
+        Relationships: []
+      }
+      aadhaar_district_aggregates: {
+        Row: {
+          bio_age_17_plus: number | null
+          bio_age_5_17: number | null
+          created_at: string | null
+          demo_age_17_plus: number | null
+          demo_age_5_17: number | null
+          district: string
+          enrol_age_0_5: number | null
+          enrol_age_18_plus: number | null
+          enrol_age_5_17: number | null
+          id: string
+          state: string
+          total_biometric_updates: number | null
+          total_demographic_updates: number | null
+          total_enrollments: number | null
+          unique_pincodes: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          bio_age_17_plus?: number | null
+          bio_age_5_17?: number | null
+          created_at?: string | null
+          demo_age_17_plus?: number | null
+          demo_age_5_17?: number | null
+          district: string
+          enrol_age_0_5?: number | null
+          enrol_age_18_plus?: number | null
+          enrol_age_5_17?: number | null
+          id?: string
+          state: string
+          total_biometric_updates?: number | null
+          total_demographic_updates?: number | null
+          total_enrollments?: number | null
+          unique_pincodes?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          bio_age_17_plus?: number | null
+          bio_age_5_17?: number | null
+          created_at?: string | null
+          demo_age_17_plus?: number | null
+          demo_age_5_17?: number | null
+          district?: string
+          enrol_age_0_5?: number | null
+          enrol_age_18_plus?: number | null
+          enrol_age_5_17?: number | null
+          id?: string
+          state?: string
+          total_biometric_updates?: number | null
+          total_demographic_updates?: number | null
+          total_enrollments?: number | null
+          unique_pincodes?: number | null
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -140,6 +209,60 @@ export type Database = {
           pincode?: string | null
           state?: string
           total_enrolment?: number | null
+        }
+        Relationships: []
+      }
+      aadhaar_monthly_trends: {
+        Row: {
+          bio_age_17_plus: number | null
+          bio_age_5_17: number | null
+          biometric_updates: number | null
+          created_at: string | null
+          demo_age_17_plus: number | null
+          demo_age_5_17: number | null
+          demographic_updates: number | null
+          enrol_age_0_5: number | null
+          enrol_age_18_plus: number | null
+          enrol_age_5_17: number | null
+          enrollments: number | null
+          id: string
+          month: number
+          state: string
+          year: number
+        }
+        Insert: {
+          bio_age_17_plus?: number | null
+          bio_age_5_17?: number | null
+          biometric_updates?: number | null
+          created_at?: string | null
+          demo_age_17_plus?: number | null
+          demo_age_5_17?: number | null
+          demographic_updates?: number | null
+          enrol_age_0_5?: number | null
+          enrol_age_18_plus?: number | null
+          enrol_age_5_17?: number | null
+          enrollments?: number | null
+          id?: string
+          month: number
+          state: string
+          year: number
+        }
+        Update: {
+          bio_age_17_plus?: number | null
+          bio_age_5_17?: number | null
+          biometric_updates?: number | null
+          created_at?: string | null
+          demo_age_17_plus?: number | null
+          demo_age_5_17?: number | null
+          demographic_updates?: number | null
+          enrol_age_0_5?: number | null
+          enrol_age_18_plus?: number | null
+          enrol_age_5_17?: number | null
+          enrollments?: number | null
+          id?: string
+          month?: number
+          state?: string
+          year?: number
         }
         Relationships: []
       }

@@ -15,6 +15,7 @@ import ExportReport from "./pages/ExportReport";
 import Documentation from "./pages/Documentation";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import DataImport from "./pages/DataImport";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/export" element={<ExportReport />} />
           <Route path="/documentation" element={<Documentation />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/data-import" element={<DataImport />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
