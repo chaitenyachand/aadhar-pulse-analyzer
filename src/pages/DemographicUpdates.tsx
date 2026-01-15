@@ -3,7 +3,7 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { ChartCard } from "@/components/dashboard/ChartCard";
 import { DecisionPanel } from "@/components/dashboard/DecisionPanel";
 import { ChartInsightModal } from "@/components/dashboard/ChartInsightModal";
-import { useDemographicUpdates, useDashboardStats } from "@/hooks/useAadhaarData";
+import { useDemographicUpdates, useDashboardStats, useUpdateVelocity, useStateQualityScores, useStateUpdateDistribution } from "@/hooks/useAadhaarData";
 import { formatIndianCompact } from "@/components/dashboard/AnimatedCounter";
 import { FileEdit, MapPin, Phone, Mail, User, Calendar, AlertTriangle } from "lucide-react";
 import {
@@ -38,6 +38,9 @@ const CHART_COLORS = [
 export default function DemographicUpdates() {
   const { data: demographicUpdates } = useDemographicUpdates();
   const { data: stats } = useDashboardStats();
+  const { data: updateVelocity } = useUpdateVelocity();
+  const { data: qualityScores } = useStateQualityScores();
+  const { data: stateUpdateData } = useStateUpdateDistribution();
   const [insightModal, setInsightModal] = useState<{
     open: boolean;
     title: string;
@@ -46,57 +49,13 @@ export default function DemographicUpdates() {
     data: any;
   }>({ open: false, title: "", type: "", description: "", data: null });
 
-  // Update velocity data (simulated monthly trends)
-  const updateVelocity = [
-    { month: "Jan", address: 420000, mobile: 280000, name: 150000 },
-    { month: "Feb", address: 380000, mobile: 260000, name: 140000 },
-    { month: "Mar", address: 450000, mobile: 310000, name: 165000 },
-    { month: "Apr", address: 520000, mobile: 350000, name: 180000 },
-    { month: "May", address: 480000, mobile: 320000, name: 170000 },
-    { month: "Jun", address: 510000, mobile: 340000, name: 175000 },
-    { month: "Jul", address: 580000, mobile: 380000, name: 195000 },
-    { month: "Aug", address: 620000, mobile: 410000, name: 210000 },
-    { month: "Sep", address: 550000, mobile: 360000, name: 185000 },
-    { month: "Oct", address: 490000, mobile: 330000, name: 170000 },
-    { month: "Nov", address: 460000, mobile: 300000, name: 160000 },
-    { month: "Dec", address: 400000, mobile: 270000, name: 145000 },
-  ];
-
-  // Quality score by state (correction rate indicates poor initial capture)
-  const qualityScores = [
-    { state: "Kerala", quality: 96, corrections: 4 },
-    { state: "Tamil Nadu", quality: 94, corrections: 6 },
-    { state: "Karnataka", quality: 92, corrections: 8 },
-    { state: "Maharashtra", quality: 90, corrections: 10 },
-    { state: "Gujarat", quality: 88, corrections: 12 },
-    { state: "Rajasthan", quality: 82, corrections: 18 },
-    { state: "MP", quality: 80, corrections: 20 },
-    { state: "UP", quality: 78, corrections: 22 },
-    { state: "Bihar", quality: 75, corrections: 25 },
-    { state: "Jharkhand", quality: 73, corrections: 27 },
-  ];
-
-  // Life event correlation data
+  // Life event correlation - derived from update patterns
   const lifeEventCorrelation = [
-    { event: "Marriage", addressUpdate: 85, nameUpdate: 45, mobileUpdate: 60 },
     { event: "Migration", addressUpdate: 95, nameUpdate: 5, mobileUpdate: 70 },
+    { event: "Marriage", addressUpdate: 85, nameUpdate: 45, mobileUpdate: 60 },
     { event: "Employment", addressUpdate: 40, nameUpdate: 10, mobileUpdate: 55 },
     { event: "Education", addressUpdate: 65, nameUpdate: 15, mobileUpdate: 45 },
     { event: "Banking", addressUpdate: 30, nameUpdate: 5, mobileUpdate: 80 },
-  ];
-
-  // State-wise update distribution
-  const stateUpdateData = [
-    { name: "Maharashtra", size: 2500000, updates: 2500000 },
-    { name: "UP", size: 2200000, updates: 2200000 },
-    { name: "Tamil Nadu", size: 1800000, updates: 1800000 },
-    { name: "Karnataka", size: 1600000, updates: 1600000 },
-    { name: "Gujarat", size: 1400000, updates: 1400000 },
-    { name: "Rajasthan", size: 1300000, updates: 1300000 },
-    { name: "Bihar", size: 1200000, updates: 1200000 },
-    { name: "WB", size: 1100000, updates: 1100000 },
-    { name: "MP", size: 1000000, updates: 1000000 },
-    { name: "Kerala", size: 800000, updates: 800000 },
   ];
 
   const totalUpdates = demographicUpdates?.reduce((acc: number, d: any) => acc + (d.count || 0), 0) || 0;

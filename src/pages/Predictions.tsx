@@ -2,7 +2,15 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { ChartCard } from "@/components/dashboard/ChartCard";
 import { ChartInsightModal } from "@/components/dashboard/ChartInsightModal";
 import { DecisionPanel, CompactDecisionPanel } from "@/components/dashboard/DecisionPanel";
-import { useEnrollmentData, useDashboardStats } from "@/hooks/useAadhaarData";
+import { 
+  useEnrollmentData, 
+  useDashboardStats, 
+  useEnrollmentForecast, 
+  useStateGrowthPredictions, 
+  useUpdateTypePredictions, 
+  useResourceDemandForecast, 
+  useSaturationPredictions 
+} from "@/hooks/useAadhaarData";
 import { formatIndianCompact } from "@/components/dashboard/AnimatedCounter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -50,67 +58,14 @@ const CHART_COLORS = [
   "hsl(43, 96%, 56%)",
 ];
 
-// ML Prediction data for enrollment forecast
-const enrollmentForecast = [
-  { month: "Jan 25", actual: 5200000, predicted: null, lower: null, upper: null },
-  { month: "Feb 25", actual: 4800000, predicted: null, lower: null, upper: null },
-  { month: "Mar 25", actual: 5500000, predicted: null, lower: null, upper: null },
-  { month: "Apr 25", actual: 5800000, predicted: null, lower: null, upper: null },
-  { month: "May 25", actual: 6100000, predicted: null, lower: null, upper: null },
-  { month: "Jun 25", actual: 5900000, predicted: 5900000, lower: 5700000, upper: 6100000 },
-  { month: "Jul 25", actual: null, predicted: 6200000, lower: 5900000, upper: 6500000 },
-  { month: "Aug 25", actual: null, predicted: 6400000, lower: 6000000, upper: 6800000 },
-  { month: "Sep 25", actual: null, predicted: 6100000, lower: 5700000, upper: 6500000 },
-  { month: "Oct 25", actual: null, predicted: 5800000, lower: 5400000, upper: 6200000 },
-  { month: "Nov 25", actual: null, predicted: 5500000, lower: 5100000, upper: 5900000 },
-  { month: "Dec 25", actual: null, predicted: 5200000, lower: 4800000, upper: 5600000 },
-];
-
-// State-wise growth predictions
-const stateGrowthPredictions = [
-  { state: "Maharashtra", currentRate: 12.5, predictedRate: 15.2, confidence: 92 },
-  { state: "Uttar Pradesh", currentRate: 8.3, predictedRate: 11.8, confidence: 88 },
-  { state: "Tamil Nadu", currentRate: 6.2, predictedRate: 8.5, confidence: 94 },
-  { state: "Karnataka", currentRate: 9.8, predictedRate: 12.1, confidence: 90 },
-  { state: "Gujarat", currentRate: 7.5, predictedRate: 9.8, confidence: 86 },
-  { state: "Bihar", currentRate: 5.1, predictedRate: 8.9, confidence: 78 },
-  { state: "West Bengal", currentRate: 6.8, predictedRate: 9.2, confidence: 82 },
-  { state: "Rajasthan", currentRate: 4.9, predictedRate: 7.5, confidence: 80 },
-];
-
-// Update type predictions
-const updateTypePredictions = [
-  { type: "Address", current: 42, predicted6mo: 48, trend: "up" },
-  { type: "Mobile", current: 26, predicted6mo: 32, trend: "up" },
-  { type: "Biometric", current: 15, predicted6mo: 22, trend: "up" },
-  { type: "Name", current: 10, predicted6mo: 8, trend: "down" },
-  { type: "DOB", current: 5, predicted6mo: 4, trend: "down" },
-  { type: "Email", current: 2, predicted6mo: 6, trend: "up" },
-];
-
-// Resource demand forecast
-const resourceDemandForecast = [
-  { month: "Jul", operators: 15200, machines: 8500, peakLoad: 78 },
-  { month: "Aug", operators: 16500, machines: 9200, peakLoad: 85 },
-  { month: "Sep", operators: 15800, machines: 8800, peakLoad: 81 },
-  { month: "Oct", operators: 14500, machines: 8100, peakLoad: 72 },
-  { month: "Nov", operators: 13800, machines: 7600, peakLoad: 68 },
-  { month: "Dec", operators: 13200, machines: 7200, peakLoad: 65 },
-];
-
-// Saturation predictions by region
-const saturationPredictions = [
-  { region: "South", currentCoverage: 96.5, targetDate: "Q1 2025", daysRemaining: 45 },
-  { region: "West", currentCoverage: 94.2, targetDate: "Q2 2025", daysRemaining: 120 },
-  { region: "North", currentCoverage: 91.8, targetDate: "Q3 2025", daysRemaining: 210 },
-  { region: "East", currentCoverage: 88.5, targetDate: "Q4 2025", daysRemaining: 300 },
-  { region: "Northeast", currentCoverage: 82.3, targetDate: "Q2 2026", daysRemaining: 480 },
-  { region: "Central", currentCoverage: 89.7, targetDate: "Q3 2025", daysRemaining: 240 },
-];
-
 export default function Predictions() {
   const { data: enrollmentData } = useEnrollmentData();
   const { data: dashboardStats } = useDashboardStats();
+  const { data: enrollmentForecast } = useEnrollmentForecast();
+  const { data: stateGrowthPredictions } = useStateGrowthPredictions();
+  const { data: updateTypePredictions } = useUpdateTypePredictions();
+  const { data: resourceDemandForecast } = useResourceDemandForecast();
+  const { data: saturationPredictions } = useSaturationPredictions();
   const [insightModal, setInsightModal] = useState<{
     open: boolean;
     title: string;
@@ -340,7 +295,7 @@ export default function Predictions() {
               </ResponsiveContainer>
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
-              {stateGrowthPredictions.slice(0, 4).map((s) => (
+              {(stateGrowthPredictions || []).slice(0, 4).map((s: any) => (
                 <div key={s.state} className="flex items-center gap-2 text-xs bg-muted/50 px-2 py-1 rounded">
                   <span className="text-muted-foreground">{s.state}:</span>
                   <span className="font-semibold text-success flex items-center">

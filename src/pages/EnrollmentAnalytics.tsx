@@ -3,7 +3,7 @@ import { StatCard } from "@/components/dashboard/StatCard";
 import { ChartCard } from "@/components/dashboard/ChartCard";
 import { DecisionPanel } from "@/components/dashboard/DecisionPanel";
 import { ChartInsightModal } from "@/components/dashboard/ChartInsightModal";
-import { useEnrollmentData, useMonthlyTrends, useDashboardStats } from "@/hooks/useAadhaarData";
+import { useEnrollmentData, useMonthlyTrends, useDashboardStats, useSaturationData } from "@/hooks/useAadhaarData";
 import { formatIndianCompact } from "@/components/dashboard/AnimatedCounter";
 import { Users, TrendingUp, MapPin, Calendar, Baby, GraduationCap, UserCheck } from "lucide-react";
 import {
@@ -39,6 +39,7 @@ export default function EnrollmentAnalytics() {
   const { data: enrollmentData, isLoading: enrollmentLoading } = useEnrollmentData();
   const { data: monthlyTrends } = useMonthlyTrends();
   const { data: stats } = useDashboardStats();
+  const { data: saturationData } = useSaturationData();
   const [insightModal, setInsightModal] = useState<{
     open: boolean;
     title: string;
@@ -47,7 +48,7 @@ export default function EnrollmentAnalytics() {
     data: any;
   }>({ open: false, title: "", type: "", description: "", data: null });
 
-  // Calculate age cohort data
+  // Calculate age cohort data from actual enrollment data
   const ageCohortData = enrollmentData?.slice(0, 10).map((state: any) => ({
     state: state.state?.substring(0, 12) || "Unknown",
     "0-5 years": state.age_0_5 || 0,
@@ -55,7 +56,7 @@ export default function EnrollmentAnalytics() {
     "18+ years": state.age_18_plus || 0,
   })) || [];
 
-  // Calculate total age distribution
+  // Calculate total age distribution from actual data
   const totalAge0_5 = enrollmentData?.reduce((acc: number, s: any) => acc + (s.age_0_5 || 0), 0) || 0;
   const totalAge5_17 = enrollmentData?.reduce((acc: number, s: any) => acc + (s.age_5_17 || 0), 0) || 0;
   const totalAge18Plus = enrollmentData?.reduce((acc: number, s: any) => acc + (s.age_18_plus || 0), 0) || 0;
@@ -67,29 +68,22 @@ export default function EnrollmentAnalytics() {
     { name: "18+ years (Adults)", value: totalAge18Plus, percentage: Math.round((totalAge18Plus / totalEnrollment) * 100) || 0 },
   ];
 
-  // Year-over-year growth simulation
-  const yoyGrowth = [
-    { year: "2019", enrollments: 98000000, growth: 8.2 },
-    { year: "2020", enrollments: 105000000, growth: 7.1 },
-    { year: "2021", enrollments: 118000000, growth: 12.4 },
-    { year: "2022", enrollments: 128000000, growth: 8.5 },
-    { year: "2023", enrollments: 138000000, growth: 7.8 },
-    { year: "2024", enrollments: 143000000, growth: 3.6 },
-  ];
-
-  // Saturation curve data
-  const saturationData = [
-    { state: "Kerala", coverage: 99.2, target: 100 },
-    { state: "Tamil Nadu", coverage: 97.8, target: 100 },
-    { state: "Maharashtra", coverage: 96.5, target: 100 },
-    { state: "Karnataka", coverage: 95.2, target: 100 },
-    { state: "Gujarat", coverage: 94.1, target: 100 },
-    { state: "Rajasthan", coverage: 91.3, target: 100 },
-    { state: "MP", coverage: 88.7, target: 100 },
-    { state: "UP", coverage: 85.4, target: 100 },
-    { state: "Bihar", coverage: 82.1, target: 100 },
-    { state: "Jharkhand", coverage: 79.8, target: 100 },
-  ];
+  // Year-over-year growth computed from monthly trends
+  const yoyGrowth = monthlyTrends?.reduce((acc: any[], m: any, idx: number) => {
+    const yearKey = m.year;
+    const existing = acc.find(a => a.year === String(yearKey));
+    if (existing) {
+      existing.enrollments += m.enrollments || 0;
+    } else {
+      acc.push({ year: String(yearKey), enrollments: m.enrollments || 0, growth: 0 });
+    }
+    return acc;
+  }, []).map((y, idx, arr) => ({
+    ...y,
+    growth: idx > 0 && arr[idx - 1].enrollments > 0 
+      ? Math.round(((y.enrollments - arr[idx - 1].enrollments) / arr[idx - 1].enrollments) * 100 * 10) / 10
+      : 0,
+  })) || [];
 
   return (
     <DashboardLayout>
