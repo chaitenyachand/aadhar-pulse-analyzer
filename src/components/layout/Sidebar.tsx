@@ -16,7 +16,6 @@ import {
   Download,
   Moon,
   Sun,
-  Upload,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -40,7 +39,6 @@ const navItems: NavItem[] = [
 ];
 
 const bottomItems: NavItem[] = [
-  { title: "Data Import", href: "/data-import", icon: Upload },
   { title: "Export Report", href: "/export", icon: Download },
   { title: "Settings", href: "/settings", icon: Settings },
 ];
