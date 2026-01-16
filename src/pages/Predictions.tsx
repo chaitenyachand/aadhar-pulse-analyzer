@@ -184,7 +184,7 @@ export default function Predictions() {
         >
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={enrollmentForecast}>
+              <ComposedChart data={enrollmentForecast || []}>
                 <defs>
                   <linearGradient id="confidenceBand" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor={CHART_COLORS[0]} stopOpacity={0.3} />
@@ -276,7 +276,7 @@ export default function Predictions() {
           >
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={stateGrowthPredictions} layout="vertical">
+                <BarChart data={stateGrowthPredictions || []} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis type="number" domain={[0, 20]} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                   <YAxis type="category" dataKey="state" width={90} stroke="hsl(var(--muted-foreground))" fontSize={11} />
@@ -325,7 +325,7 @@ export default function Predictions() {
           >
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={updateTypePredictions}>
+                <BarChart data={updateTypePredictions || []}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="type" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                   <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
@@ -344,7 +344,7 @@ export default function Predictions() {
               </ResponsiveContainer>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-2">
-              {updateTypePredictions.slice(0, 3).map((u) => (
+              {(updateTypePredictions || []).slice(0, 3).map((u: any) => (
                 <div key={u.type} className="p-2 bg-muted/30 rounded text-center">
                   <p className="text-xs text-muted-foreground">{u.type}</p>
                   <p className={`font-semibold flex items-center justify-center gap-1 ${u.trend === "up" ? "text-success" : "text-destructive"}`}>
@@ -376,7 +376,7 @@ export default function Predictions() {
           >
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={resourceDemandForecast}>
+                <AreaChart data={resourceDemandForecast || []}>
                   <defs>
                     <linearGradient id="operatorsGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor={CHART_COLORS[0]} stopOpacity={0.3} />
@@ -423,7 +423,7 @@ export default function Predictions() {
             subtitle="Predicted dates for achieving universal enrollment by region"
           >
             <div className="space-y-4">
-              {saturationPredictions.map((region) => (
+              {(saturationPredictions || []).map((region: any) => (
                 <div key={region.region} className="space-y-2">
                   <div className="flex items-center justify-between text-sm">
                     <span className="font-medium">{region.region}</span>
