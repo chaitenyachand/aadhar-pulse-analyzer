@@ -308,12 +308,12 @@ export default function EnrollmentAnalytics() {
               title: "Coverage Saturation by State",
               type: "bar-chart",
               description: "Population coverage percentage by state",
-              data: saturationData,
+              data: saturationData || [],
             })}
           >
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={saturationData} layout="vertical">
+                <BarChart data={saturationData || []} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis
                     type="number"
@@ -338,7 +338,7 @@ export default function EnrollmentAnalytics() {
                     formatter={(value: number) => [`${value}%`, "Coverage"]}
                   />
                   <Bar dataKey="coverage" radius={[0, 4, 4, 0]}>
-                    {saturationData.map((entry, index) => (
+                    {(saturationData || []).map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={entry.coverage >= 95 ? CHART_COLORS[2] : entry.coverage >= 90 ? CHART_COLORS[0] : CHART_COLORS[1]}
