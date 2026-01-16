@@ -99,10 +99,10 @@ const { nodes, links } = useMemo(() => {
 
     const sankeyGenerator = sankey<NodeData, LinkData>()
       .nodeWidth(20)
-      .nodePadding(15)
+      .nodePadding(20)
       .extent([
-        [50, 20],
-        [width - 50, height - 20],
+        [120, 20],
+        [width - 120, height - 20],
       ]);
 
     try {
@@ -184,11 +184,12 @@ const { nodes, links } = useMemo(() => {
                 className="transition-all duration-200 hover:opacity-80"
               />
               <text
-                x={isSource ? -6 : (nodeData.x1 || 0) - (nodeData.x0 || 0) + 6}
+                x={isSource ? -8 : (nodeData.x1 || 0) - (nodeData.x0 || 0) + 8}
                 y={((nodeData.y1 || 0) - (nodeData.y0 || 0)) / 2}
                 dy="0.35em"
                 textAnchor={isSource ? "end" : "start"}
-                className="text-xs fill-foreground font-medium"
+                className="text-[11px] fill-foreground font-medium"
+                style={{ pointerEvents: "none" }}
               >
                 {displayName}
               </text>
