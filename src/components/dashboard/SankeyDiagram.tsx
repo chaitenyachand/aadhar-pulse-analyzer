@@ -98,7 +98,6 @@ const { nodes, links } = useMemo(() => {
     if (nodes.length === 0 || links.length === 0) return null;
 
     const sankeyGenerator = sankey<NodeData, LinkData>()
-      .nodeId((d) => nodes.indexOf(d as NodeData))
       .nodeWidth(20)
       .nodePadding(15)
       .extent([
