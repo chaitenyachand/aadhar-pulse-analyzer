@@ -365,14 +365,10 @@ export default function DemographicUpdates() {
                 </tr>
               </thead>
               <tbody>
-                {[
-                  { field: "Address", count: 8500000, percentage: 42, trend: "+12%", trigger: "Migration, Marriage" },
-                  { field: "Mobile", count: 5200000, percentage: 26, trend: "+8%", trigger: "SIM change, Banking" },
-                  { field: "Name", count: 3100000, percentage: 15, trend: "+3%", trigger: "Marriage, Corrections" },
-                  { field: "DOB", count: 2100000, percentage: 10, trend: "-2%", trigger: "Document verification" },
-                  { field: "Email", count: 900000, percentage: 5, trend: "+15%", trigger: "Digital services" },
-                  { field: "Gender", count: 400000, percentage: 2, trend: "+1%", trigger: "Legal corrections" },
-                ].map((row, index) => (
+                {(demographicUpdates || []).map((row: any, index: number) => {
+                  const trends: Record<string, string> = { Address: "+12%", Mobile: "+8%", Name: "+3%", DOB: "-2%", Email: "+15%", Gender: "+1%" };
+                  const triggers: Record<string, string> = { Address: "Migration, Marriage", Mobile: "SIM change, Banking", Name: "Marriage, Corrections", DOB: "Document verification", Email: "Digital services", Gender: "Legal corrections" };
+                  return (
                   <tr key={row.field} className="border-b border-border/50 hover:bg-muted/30 transition-colors">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
@@ -384,7 +380,7 @@ export default function DemographicUpdates() {
                       </div>
                     </td>
                     <td className="py-3 px-4 text-right tabular-nums font-semibold">
-                      {formatIndianCompact(row.count)}
+                      {formatIndianCompact(row.count || 0)}
                     </td>
                     <td className="py-3 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
@@ -392,28 +388,29 @@ export default function DemographicUpdates() {
                           <div
                             className="h-full rounded-full"
                             style={{
-                              width: `${row.percentage}%`,
+                              width: `${row.percentage || 0}%`,
                               backgroundColor: CHART_COLORS[index % CHART_COLORS.length],
                             }}
                           />
                         </div>
-                        <span className="text-sm text-muted-foreground">{row.percentage}%</span>
+                        <span className="text-sm text-muted-foreground">{row.percentage || 0}%</span>
                       </div>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <span
                         className={`text-xs font-medium px-2 py-1 rounded ${
-                          row.trend.startsWith("+")
+                          (trends[row.field] || "+0%").startsWith("+")
                             ? "bg-success/20 text-success"
                             : "bg-destructive/20 text-destructive"
                         }`}
                       >
-                        {row.trend}
+                        {trends[row.field] || "+0%"}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-muted-foreground text-sm">{row.trigger}</td>
+                    <td className="py-3 px-4 text-muted-foreground text-sm">{triggers[row.field] || "N/A"}</td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>
