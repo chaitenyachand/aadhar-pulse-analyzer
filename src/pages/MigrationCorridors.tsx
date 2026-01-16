@@ -175,11 +175,11 @@ export default function MigrationCorridors() {
           })}
         >
           <div className="h-[500px] w-full overflow-auto">
-            {migrationData && (
+            {migrationData && migrationData.length > 0 && (
               <SankeyDiagram
                 data={migrationData}
-                width={Math.max(800, (migrationData.length / 2) * 100)}
-                height={450}
+                width={900}
+                height={480}
                 onNodeClick={setSelectedCorridor}
               />
             )}
