@@ -145,7 +145,7 @@ export default function DemographicUpdates() {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={demographicUpdates}
+                    data={demographicUpdates || []}
                     cx="50%"
                     cy="50%"
                     innerRadius={65}
@@ -188,7 +188,7 @@ export default function DemographicUpdates() {
           >
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={updateVelocity}>
+                <BarChart data={updateVelocity || []}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                   <YAxis
@@ -228,7 +228,7 @@ export default function DemographicUpdates() {
         >
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={qualityScores} layout="vertical">
+              <BarChart data={qualityScores || []} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis
                   type="number"
@@ -321,7 +321,7 @@ export default function DemographicUpdates() {
           >
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={stateUpdateData}>
+                <BarChart data={stateUpdateData || []}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="name" stroke="hsl(var(--muted-foreground))" fontSize={11} />
                   <YAxis
@@ -338,7 +338,7 @@ export default function DemographicUpdates() {
                     }}
                   />
                   <Bar dataKey="size" fill={CHART_COLORS[0]} radius={[4, 4, 0, 0]}>
-                    {stateUpdateData.map((_, index) => (
+                    {(stateUpdateData || []).map((_, index) => (
                       <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
                     ))}
                   </Bar>
