@@ -390,8 +390,8 @@ export default function Index() {
                 </tr>
               </thead>
               <tbody>
-                {enrollmentData
-                  ?.sort((a: any, b: any) => (b.total || 0) - (a.total || 0))
+              {enrollmentData
+                  ?.sort((a: any, b: any) => (b.total_enrolment || 0) - (a.total_enrolment || 0))
                   .slice(0, 10)
                   .map((state: any, index: number) => (
                     <tr
@@ -411,7 +411,7 @@ export default function Index() {
                       </td>
                       <td className="py-3 px-4 font-medium">{state.state}</td>
                       <td className="py-3 px-4 text-right tabular-nums">
-                        {(state.total || 0).toLocaleString("en-IN")}
+                        {(state.total_enrolment || 0).toLocaleString("en-IN")}
                       </td>
                       <td className="py-3 px-4 text-right tabular-nums text-muted-foreground">
                         {(state.age_0_5 || 0).toLocaleString("en-IN")}
