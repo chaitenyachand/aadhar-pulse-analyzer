@@ -77,7 +77,7 @@ export default function BiometricLifecycle() {
   const failurePrediction = (biometricData?.stateAggregates || []).slice(0, 8).map((s: any) => {
     const failureRate = Math.round((1 - 0.95) * 100 * 10) / 10;
     return {
-      district: s.state?.substring(0, 10) || "Unknown",
+      district: s.state || "Unknown",
       risk: Math.round(failureRate + Math.random() * 5),
       currentFailure: failureRate,
       predictedFailure: Math.round((failureRate * 1.2) * 10) / 10,
@@ -88,7 +88,7 @@ export default function BiometricLifecycle() {
   const elderlyCareAlerts = (enrollmentData || []).slice(0, 6).map((s: any) => {
     const elderly = Math.round((s.age_18_plus || 0) * 0.15); // ~15% of adults are 60+
     return {
-      state: s.state?.substring(0, 12) || "Unknown",
+      state: s.state || "Unknown",
       elderly60Plus: elderly,
       doorstepNeeded: Math.round(elderly * 0.25),
       coverage: Math.round(40 + Math.random() * 20),
