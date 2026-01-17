@@ -50,7 +50,7 @@ export default function EnrollmentAnalytics() {
 
   // Calculate age cohort data from actual enrollment data
   const ageCohortData = enrollmentData?.slice(0, 10).map((state: any) => ({
-    state: state.state?.substring(0, 12) || "Unknown",
+    state: state.state || "Unknown",
     "0-5 years": state.age_0_5 || 0,
     "5-17 years": state.age_5_17 || 0,
     "18+ years": state.age_18_plus || 0,

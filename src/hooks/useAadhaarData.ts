@@ -503,7 +503,7 @@ export function useStateQualityScores() {
       
       // Quality scores derived from actual enrollment coverage patterns
       return enrollmentData.data.slice(0, 10).map((s: any, idx: number) => ({
-        state: s.state?.substring(0, 12) || "Unknown",
+        state: s.state || "Unknown",
         quality: Math.max(70, 96 - idx * 2.5),
         corrections: Math.min(30, 4 + idx * 2.5),
         enrollments: s.total_enrolment || 0,
@@ -528,7 +528,7 @@ export function useStateUpdateDistribution() {
       );
       
       return enrollmentData.data.slice(0, 10).map((s: any) => ({
-        name: s.state?.substring(0, 12) || "Unknown",
+        name: s.state || "Unknown",
         size: biometricByState.get(s.state) || Math.round(s.total_enrolment * 0.08),
         updates: biometricByState.get(s.state) || Math.round(s.total_enrolment * 0.08),
         enrollments: s.total_enrolment || 0,
@@ -577,7 +577,7 @@ export function useSaturationData() {
       return enrollmentData.data.slice(0, 10).map((s: any) => {
         const coverage = Math.min(99.5, 75 + ((s.total_enrolment || 0) / maxEnrollment) * 24);
         return {
-          state: s.state?.substring(0, 12) || "Unknown",
+          state: s.state || "Unknown",
           coverage: Math.round(coverage * 10) / 10,
           target: 100,
           enrollments: s.total_enrolment || 0,
@@ -646,7 +646,7 @@ export function useStateGrowthPredictions() {
       return enrollmentData.data.slice(0, 8).map((s: any, idx: number) => {
         const baseRate = 5 + (s.total_enrolment / 1000000) * 0.5;
         return {
-          state: s.state?.substring(0, 12) || "Unknown",
+          state: s.state || "Unknown",
           currentRate: Math.round(baseRate * 10) / 10,
           predictedRate: Math.round((baseRate * 1.3) * 10) / 10,
           confidence: 95 - idx * 2,

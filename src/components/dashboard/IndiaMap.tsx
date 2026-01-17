@@ -15,8 +15,9 @@ interface IndiaMapProps {
 }
 
 // Simplified India map SVG paths for major states
+// Note: Names match database format (e.g., "Jammu and Kashmir" not "Jammu & Kashmir")
 const statePaths: Record<string, string> = {
-  "Jammu & Kashmir": "M 150,20 L 180,15 L 200,30 L 210,60 L 190,80 L 160,75 L 140,50 Z",
+  "Jammu and Kashmir": "M 150,20 L 180,15 L 200,30 L 210,60 L 190,80 L 160,75 L 140,50 Z",
   "Himachal Pradesh": "M 170,75 L 195,70 L 210,85 L 200,100 L 175,95 Z",
   "Punjab": "M 140,85 L 170,80 L 175,100 L 150,110 L 135,100 Z",
   "Uttarakhand": "M 200,90 L 230,85 L 245,100 L 225,115 L 200,110 Z",
