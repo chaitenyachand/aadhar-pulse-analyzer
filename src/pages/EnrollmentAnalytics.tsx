@@ -20,9 +20,6 @@ import {
   PieChart,
   Pie,
   Legend,
-  LineChart,
-  Line,
-  ComposedChart,
 } from "recharts";
 import { useState } from "react";
 
@@ -67,23 +64,6 @@ export default function EnrollmentAnalytics() {
     { name: "5-17 years (School Age)", value: totalAge5_17, percentage: Math.round((totalAge5_17 / totalEnrollment) * 100) || 0 },
     { name: "18+ years (Adults)", value: totalAge18Plus, percentage: Math.round((totalAge18Plus / totalEnrollment) * 100) || 0 },
   ];
-
-  // Year-over-year growth computed from monthly trends
-  const yoyGrowth = monthlyTrends?.reduce((acc: any[], m: any, idx: number) => {
-    const yearKey = m.year;
-    const existing = acc.find(a => a.year === String(yearKey));
-    if (existing) {
-      existing.enrollments += m.enrollments || 0;
-    } else {
-      acc.push({ year: String(yearKey), enrollments: m.enrollments || 0, growth: 0 });
-    }
-    return acc;
-  }, []).map((y, idx, arr) => ({
-    ...y,
-    growth: idx > 0 && arr[idx - 1].enrollments > 0 
-      ? Math.round(((y.enrollments - arr[idx - 1].enrollments) / arr[idx - 1].enrollments) * 100 * 10) / 10
-      : 0,
-  })) || [];
 
   return (
     <DashboardLayout>
@@ -152,96 +132,49 @@ export default function EnrollmentAnalytics() {
           variant="accent"
         />
 
-        {/* Charts Row 1 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Age Distribution Pie */}
-          <ChartCard
-            title="Age Cohort Distribution"
-            subtitle="Enrollment breakdown by age groups • Click for insights"
-            onClick={() => setInsightModal({
-              open: true,
-              title: "Age Cohort Distribution",
-              type: "pie-chart",
-              description: "Age-wise breakdown of Aadhaar enrollments",
-              data: ageDistribution,
-            })}
-          >
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={ageDistribution}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={70}
-                    outerRadius={110}
-                    paddingAngle={3}
-                    dataKey="value"
-                    nameKey="name"
-                    label={({ name, percentage }) => `${percentage}%`}
-                  >
-                    {ageDistribution.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value: number) => [formatIndianCompact(value), "Enrollments"]}
-                    contentStyle={{
-                      backgroundColor: "hsl(var(--card))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "8px",
-                    }}
-                  />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </ChartCard>
-
-          {/* Year-over-Year Growth */}
-          <ChartCard
-            title="Year-over-Year Growth"
-            subtitle="Annual enrollment trends and growth rates • Click for insights"
-            onClick={() => setInsightModal({
-              open: true,
-              title: "Year-over-Year Growth",
-              type: "composed-chart",
-              description: "Annual enrollment trends with growth percentages",
-              data: yoyGrowth,
-            })}
-          >
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={yoyGrowth}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="year" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis
-                    yAxisId="left"
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={12}
-                    tickFormatter={(value) => formatIndianCompact(value)}
-                  />
-                  <YAxis
-                    yAxisId="right"
-                    orientation="right"
-                    stroke="hsl(var(--muted-foreground))"
-                    fontSize={12}
-                    tickFormatter={(value) => `${value}%`}
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "hsl(var(--card))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "8px",
-                    }}
-                  />
-                  <Bar yAxisId="left" dataKey="enrollments" fill={CHART_COLORS[0]} radius={[4, 4, 0, 0]} name="Enrollments" />
-                  <Line yAxisId="right" type="monotone" dataKey="growth" stroke={CHART_COLORS[1]} strokeWidth={3} name="Growth %" />
-                </ComposedChart>
-              </ResponsiveContainer>
-            </div>
-          </ChartCard>
-        </div>
+        {/* Age Distribution Pie */}
+        <ChartCard
+          title="Age Cohort Distribution"
+          subtitle="Enrollment breakdown by age groups • Click for insights"
+          onClick={() => setInsightModal({
+            open: true,
+            title: "Age Cohort Distribution",
+            type: "pie-chart",
+            description: "Age-wise breakdown of Aadhaar enrollments",
+            data: ageDistribution,
+          })}
+        >
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={ageDistribution}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={70}
+                  outerRadius={110}
+                  paddingAngle={3}
+                  dataKey="value"
+                  nameKey="name"
+                  label={({ name, percentage }) => `${percentage}%`}
+                >
+                  {ageDistribution.map((_, index) => (
+                    <Cell key={`cell-${index}`} fill={CHART_COLORS[index % CHART_COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  formatter={(value: number) => [formatIndianCompact(value), "Enrollments"]}
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                  }}
+                />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </ChartCard>
 
         {/* State-wise Age Cohorts */}
         <ChartCard
