@@ -121,9 +121,9 @@ export default function DemographicUpdates() {
 
         {/* Decision Panel */}
         <DecisionPanel
-          insight="Address updates constitute 42% of all demographic changes, correlating strongly with internal migration patterns"
-          policyAction="Implement streamlined digital address update via mAadhaar with DigiLocker integration"
-          operationalImpact="↓ 35% in-person center visits, ↑ 50% update processing speed"
+          insight="Address updates constitute 42% of all demographic changes, suggesting correlation with internal mobility patterns"
+          policyAction="Consider streamlined digital address update channels to reduce in-person center visits"
+          operationalImpact="Potential ↓ in center visits, ↑ in update processing throughput"
           variant="accent"
         />
 
@@ -265,9 +265,9 @@ export default function DemographicUpdates() {
 
         {/* Decision Panel */}
         <DecisionPanel
-          insight="States with high correction rates (Bihar 25%, Jharkhand 27%) indicate systemic issues in initial data capture"
-          policyAction="Deploy quality assurance audits and operator retraining programs in high-correction districts"
-          operationalImpact="↓ 30% future correction needs, ↑ 25% first-time data accuracy"
+          insight="States with higher correction rates may indicate systemic data capture quality variations"
+          policyAction="Investigate data capture workflows in high-correction-rate districts; consider operator training reviews"
+          operationalImpact="Potential ↓ in future correction needs, ↑ in first-time data accuracy"
           variant="warning"
         />
 

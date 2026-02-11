@@ -156,7 +156,7 @@ export default function MigrationCorridors() {
         </ChartCard>
 
         {/* Decision Panel */}
-        <DecisionPanel insight="Bihar and Uttar Pradesh show highest out-migration to Maharashtra and Delhi, indicating strong economic pull factors" policyAction="Establish mobile Aadhaar update camps at major destination points (Mumbai, Delhi) for migrant populations" operationalImpact="↑ 40% address update compliance, ↓ 25% pendency in source states" variant="default" />
+        <DecisionPanel insight="Bihar and Uttar Pradesh show highest address change volumes toward Maharashtra and Delhi, suggesting strong mobility corridors" policyAction="Consider establishing mobile Aadhaar update facilities at major destination points for populations with recent address changes" operationalImpact="Potential ↑ in address update compliance, ↓ in update pendency in source states" variant="default" />
 
         {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

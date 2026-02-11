@@ -126,9 +126,9 @@ export default function EnrollmentAnalytics() {
 
         {/* Decision Panel */}
         <DecisionPanel
-          insight="Child enrollment (0-5 years) shows 15% lower penetration in rural districts compared to urban areas"
-          policyAction="Deploy mobile enrollment camps in Anganwadi centers during immunization drives"
-          operationalImpact="↑ 22% child enrollment coverage in underserved districts"
+          insight="Child enrollment (0-5 years) volumes appear lower in some rural districts compared to urban areas based on enrollment data"
+          policyAction="Consider mobile enrollment outreach in underserved areas during routine health visits"
+          operationalImpact="Potential ↑ in child enrollment volumes in currently underserved districts"
           variant="accent"
         />
 
@@ -224,9 +224,9 @@ export default function EnrollmentAnalytics() {
 
         {/* Decision Panel */}
         <DecisionPanel
-          insight="States like Bihar and UP show disproportionately high child enrollment ratios, indicating younger population demographics"
-          policyAction="Plan for higher biometric update demand in 5-10 years as children age into mandatory update brackets"
-          operationalImpact="↑ 40% preparedness for future biometric update surge"
+          insight="States like Bihar and UP show higher child enrollment proportions, consistent with younger population demographics in these regions"
+          policyAction="Plan for increased biometric update demand as enrolled children age into update-eligible brackets"
+          operationalImpact="Better preparedness for projected future biometric update volume increases"
           variant="success"
         />
 
@@ -234,13 +234,13 @@ export default function EnrollmentAnalytics() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Saturation Curve */}
           <ChartCard
-            title="Coverage Saturation by State"
-            subtitle="Progress toward 100% population coverage • Click for insights"
+            title="Enrollment Saturation (Proxy) by State"
+            subtitle="Relative enrollment saturation based on enrollment volumes • Click for insights"
             onClick={() => setInsightModal({
               open: true,
-              title: "Coverage Saturation by State",
+              title: "Enrollment Saturation (Proxy) by State",
               type: "bar-chart",
-              description: "Population coverage percentage by state",
+              description: "Relative enrollment saturation derived from enrollment volumes (proxy metric, not population coverage)",
               data: saturationData || [],
             })}
           >
@@ -268,7 +268,7 @@ export default function EnrollmentAnalytics() {
                       border: "1px solid hsl(var(--border))",
                       borderRadius: "8px",
                     }}
-                    formatter={(value: number) => [`${value}%`, "Coverage"]}
+                    formatter={(value: number) => [`${value}%`, "Enrollment Saturation (Proxy)"]}
                   />
                   <Bar dataKey="coverage" radius={[0, 4, 4, 0]}>
                     {(saturationData || []).map((entry, index) => (
