@@ -103,7 +103,7 @@ export default function Index() {
             </div>
             <div className="bg-primary-foreground/10 backdrop-blur-lg rounded-xl p-4 border border-primary-foreground/20">
               <p className="text-sm text-primary-foreground/70 mb-1">
-                Coverage Rate
+                Enrollment Saturation (Proxy)
               </p>
               <p className="text-2xl font-bold font-display">
                 {statsLoading ? "..." : `${stats?.coveragePercentage}%`}
@@ -181,9 +181,9 @@ export default function Index() {
             loading={statsLoading}
           />
           <StatCard
-            title="Coverage Rate"
+            title="Enrollment Saturation (Proxy)"
             value={`${stats?.coveragePercentage || 0}%`}
-            subtitle="of total population"
+            subtitle="estimated from enrollment data"
             icon={<Globe className="w-5 h-5" />}
             variant="default"
             loading={statsLoading}
@@ -278,9 +278,9 @@ export default function Index() {
 
         {/* Decision Panel */}
         <DecisionPanel
-          insight="High address update volatility detected in urban districts, indicating significant internal migration patterns"
-          policyAction="Enable self-service digital address updates via mAadhaar app to reduce enrollment center dependency"
-          operationalImpact="↓ 18% enrollment center load, ↑ 35% citizen convenience"
+          insight="High address update volume detected in urban districts, suggesting significant internal mobility patterns"
+          policyAction="Consider enabling self-service digital address updates via mobile app to reduce center dependency"
+          operationalImpact="Potential ↓ in enrollment center load, ↑ in update processing efficiency"
           variant="accent"
         />
 

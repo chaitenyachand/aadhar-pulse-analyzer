@@ -33,9 +33,9 @@ const navItems: NavItem[] = [
   { title: "Demographic Updates", href: "/demographic", icon: FileEdit },
   { title: "Biometric Lifecycle", href: "/biometric", icon: Fingerprint },
   { title: "Migration Corridors", href: "/migration", icon: Map, badge: "AI" },
-  { title: "Digital Inclusion", href: "/digital-inclusion", icon: Wifi, badge: "AI" },
-  { title: "Anomaly Detection", href: "/anomalies", icon: AlertTriangle, badge: "Live" },
-  { title: "Predictions", href: "/predictions", icon: TrendingUp, badge: "ML" },
+  { title: "Interaction Intensity", href: "/digital-inclusion", icon: Wifi, badge: "AI" },
+  { title: "Anomaly Detection", href: "/anomalies", icon: AlertTriangle },
+  { title: "Trend Projections", href: "/predictions", icon: TrendingUp, badge: "ML" },
 ];
 
 const bottomItems: NavItem[] = [

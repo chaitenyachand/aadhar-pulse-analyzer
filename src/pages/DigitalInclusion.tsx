@@ -2,12 +2,13 @@ import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { ChartCard } from "@/components/dashboard/ChartCard";
 import { ChartInsightModal } from "@/components/dashboard/ChartInsightModal";
 import { DecisionPanel } from "@/components/dashboard/DecisionPanel";
+import { DerivedMetricTooltip } from "@/components/dashboard/MethodologyBanner";
 import { useDigitalInclusionIndex } from "@/hooks/useAadhaarData";
 import { formatIndianCompact } from "@/components/dashboard/AnimatedCounter";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Globe, Smartphone, Users, TrendingUp, TrendingDown, Award, AlertCircle } from "lucide-react";
+import { Globe, Smartphone, Users, TrendingUp, TrendingDown, Award, AlertCircle, Info } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, ScatterChart, Scatter, ZAxis } from "recharts";
 import { useState } from "react";
 const CHART_COLORS = ["hsl(207, 90%, 45%)", "hsl(24, 95%, 53%)", "hsl(145, 76%, 35%)", "hsl(262, 52%, 47%)", "hsl(174, 62%, 40%)"];
@@ -60,11 +61,11 @@ export default function DigitalInclusion() {
         <div className="relative px-8 py-10">
           
           <h1 className="text-3xl font-bold font-display mb-2">
-            Digital Inclusion Index
+            Aadhaar Interaction Intensity Index (Derived)
           </h1>
           <p className="text-muted-foreground max-w-2xl">
-            Composite index measuring digital readiness based on mobile penetration,
-            enrollment accessibility, and biometric success rates across states.
+            Composite index measuring interaction intensity based on mobile update activity,
+            enrollment volumes, and biometric update frequency across states.
           </p>
 
           {/* Quick Stats */}
@@ -96,7 +97,7 @@ export default function DigitalInclusion() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
                   <Users className="w-4 h-4 text-success" />
-                  High Inclusion
+                  High Intensity
                 </div>
                 <p className="text-2xl font-bold font-display text-success">
                   {highInclusionCount}
@@ -108,7 +109,7 @@ export default function DigitalInclusion() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
                   <AlertCircle className="w-4 h-4 text-destructive" />
-                  Needs Attention
+                  Low Intensity
                 </div>
                 <p className="text-2xl font-bold font-display text-destructive">
                   {lowInclusionCount}
@@ -129,11 +130,11 @@ export default function DigitalInclusion() {
       {/* Main Content */}
       <div className="p-8 space-y-8">
         {/* State Rankings */}
-        <ChartCard title="Digital Inclusion Index Rankings" subtitle="States ranked by composite DII score • Click for AI insights" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" loading={isLoading} onClick={() => setInsightModal({
+        <ChartCard title="Aadhaar Interaction Intensity – State Rankings" subtitle="States ranked by composite interaction intensity score (derived) • Click for AI insights" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" loading={isLoading} onClick={() => setInsightModal({
         open: true,
-        title: "Digital Inclusion Index Rankings",
+        title: "Aadhaar Interaction Intensity – State Rankings",
         type: "bar-chart",
-        description: "Composite index measuring digital readiness across Indian states",
+        description: "Composite index derived from normalized enrollment and update interaction volumes across Indian states",
         data: inclusionData
       })}>
           <div className="h-96">
@@ -147,7 +148,7 @@ export default function DigitalInclusion() {
                 border: "1px solid hsl(var(--border))",
                 borderRadius: "8px"
               }} formatter={(value: number, name: string) => {
-                if (name === "score") return [`${value}`, "DII Score"];
+                if (name === "score") return [`${value}`, "Interaction Intensity Score"];
                 return [value, name];
               }} />
                 <Bar dataKey="score" radius={[0, 4, 4, 0]}>
@@ -159,28 +160,28 @@ export default function DigitalInclusion() {
         </ChartCard>
 
         {/* Decision Panel */}
-        <DecisionPanel insight="Southern states (Kerala, Tamil Nadu, Karnataka) consistently outperform in digital inclusion, while BIMARU states lag significantly" policyAction="Launch targeted digital literacy programs in Bihar, UP, MP, Rajasthan with mobile Aadhaar camps" operationalImpact="↑ 30% enrollment in underserved areas, ↓ 45% digital divide gap over 3 years" variant="accent" />
+        <DecisionPanel insight="Southern states (Kerala, Tamil Nadu, Karnataka) show consistently higher Aadhaar interaction volumes, while some northern states show lower activity levels" policyAction="Investigate lower interaction intensity in underperforming states; consider targeted enrollment and update awareness campaigns" operationalImpact="Potential ↑ in enrollment and update activity in low-intensity states through outreach programs" variant="accent" />
 
         {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Radar Chart - Component Analysis */}
-          <ChartCard title="Component Analysis (Top 5 States)" subtitle="Multi-dimensional view of digital inclusion factors • Click for insights" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" onClick={() => setInsightModal({
+          <ChartCard title="Component Analysis (Top 5 States)" subtitle="Multi-dimensional view of interaction intensity factors (derived) • Click for insights" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" onClick={() => setInsightModal({
           open: true,
           title: "Component Analysis - Top 5 States",
           type: "radar-chart",
-          description: "Comparing mobile, enrollment, and biometric metrics across top performers",
+          description: "Comparing mobile update activity, enrollment volumes, and biometric update frequency across top performers",
           data: radarData
         })}>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={[{
-                metric: "Mobile",
+                metric: "Mobile Activity",
                 ...Object.fromEntries(radarData.map(d => [d.state, d.mobile]))
               }, {
                 metric: "Enrollment",
                 ...Object.fromEntries(radarData.map(d => [d.state, d.enrollment]))
               }, {
-                metric: "Biometric",
+                metric: "Biometric Updates",
                 ...Object.fromEntries(radarData.map(d => [d.state, d.biometric]))
               }]}>
                   <PolarGrid stroke="hsl(var(--border))" />
@@ -200,11 +201,11 @@ export default function DigitalInclusion() {
           </ChartCard>
 
           {/* Scatter Chart - Correlation */}
-          <ChartCard title="Mobile vs Enrollment Correlation" subtitle="Relationship between mobile penetration and enrollment accessibility" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" onClick={() => setInsightModal({
+          <ChartCard title="Mobile Activity vs Enrollment Correlation" subtitle="Relationship between mobile update activity and enrollment volumes" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" onClick={() => setInsightModal({
           open: true,
-          title: "Mobile vs Enrollment Correlation",
+          title: "Mobile Activity vs Enrollment Correlation",
           type: "scatter-chart",
-          description: "Analyzing correlation between mobile penetration and enrollment accessibility",
+          description: "Analyzing correlation between mobile update activity and enrollment volumes",
           data: scatterData
         })}>
             <div className="h-80">
@@ -216,11 +217,11 @@ export default function DigitalInclusion() {
                 left: 20
               }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis type="number" dataKey="x" name="Mobile" domain={[40, 100]} tick={{
+                  <XAxis type="number" dataKey="x" name="Mobile Activity" domain={[40, 100]} tick={{
                   fill: "hsl(var(--muted-foreground))",
                   fontSize: 12
                 }} label={{
-                  value: "Mobile Penetration",
+                  value: "Mobile Update Activity (Proxy)",
                   position: "bottom",
                   fill: "hsl(var(--muted-foreground))"
                 }} />
@@ -228,7 +229,7 @@ export default function DigitalInclusion() {
                   fill: "hsl(var(--muted-foreground))",
                   fontSize: 12
                 }} label={{
-                  value: "Enrollment",
+                  value: "Enrollment Volume",
                   angle: -90,
                   position: "left",
                   fill: "hsl(var(--muted-foreground))"
@@ -249,19 +250,25 @@ export default function DigitalInclusion() {
           </ChartCard>
         </div>
 
+        {/* Footnote */}
+        <div className="flex items-start gap-2 p-4 bg-muted/30 rounded-lg text-sm text-muted-foreground">
+          <Info className="w-4 h-4 mt-0.5 shrink-0" />
+          <p>Index components are normalized interaction volumes derived from aggregated Aadhaar data; this is not a measure of device ownership or digital access.</p>
+        </div>
+
         {/* Detailed Rankings Table */}
-        <ChartCard title="Detailed State Rankings" subtitle="Complete breakdown of Digital Inclusion Index components">
+        <ChartCard title="Aadhaar Interaction Intensity – Detailed State Rankings" subtitle="Complete breakdown of interaction intensity index components (derived metrics)">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 font-semibold text-muted-foreground">Rank</th>
                   <th className="text-left py-3 px-4 font-semibold text-muted-foreground">State</th>
-                  <th className="text-center py-3 px-4 font-semibold text-muted-foreground">DII Score</th>
+                  <th className="text-center py-3 px-4 font-semibold text-muted-foreground">Intensity Score</th>
                   <th className="text-center py-3 px-4 font-semibold text-muted-foreground">
                     <div className="flex items-center justify-center gap-1">
                       <Smartphone className="w-3 h-3" />
-                      Mobile
+                      Mobile Update Activity (Proxy)
                     </div>
                   </th>
                   <th className="text-center py-3 px-4 font-semibold text-muted-foreground">
@@ -270,7 +277,7 @@ export default function DigitalInclusion() {
                       Enrollment
                     </div>
                   </th>
-                  <th className="text-center py-3 px-4 font-semibold text-muted-foreground">Biometric</th>
+                  <th className="text-center py-3 px-4 font-semibold text-muted-foreground">Biometric Updates</th>
                   <th className="text-right py-3 px-4 font-semibold text-muted-foreground">Status</th>
                 </tr>
               </thead>
@@ -296,12 +303,12 @@ export default function DigitalInclusion() {
                     <td className="py-3 px-4 text-right">
                       {state.score >= 80 ? <Badge className="bg-success/10 text-success border-success/20">
                           <TrendingUp className="w-3 h-3 mr-1" />
-                          Excellent
-                        </Badge> : state.score >= 60 ? <Badge variant="secondary">Good</Badge> : state.score >= 40 ? <Badge variant="outline" className="text-warning border-warning/20">
-                          Moderate
+                          High
+                        </Badge> : state.score >= 60 ? <Badge variant="secondary">Moderate</Badge> : state.score >= 40 ? <Badge variant="outline" className="text-warning border-warning/20">
+                          Low
                         </Badge> : <Badge variant="destructive">
                           <TrendingDown className="w-3 h-3 mr-1" />
-                          Critical
+                          Very Low
                         </Badge>}
                     </td>
                   </tr>)}

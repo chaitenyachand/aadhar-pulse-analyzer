@@ -29,6 +29,7 @@ import {
   ArrowDownRight,
   Clock,
   Sparkles,
+  Info,
 } from "lucide-react";
 import {
   LineChart,
@@ -74,8 +75,8 @@ export default function Predictions() {
     data: any;
   }>({ open: false, title: "", type: "", description: "", data: null });
 
-  const modelAccuracy = 94.2;
-  const predictionConfidence = 87.5;
+  const inSampleFit = 94.2;
+  const modelConfidence = 87.5;
   const forecastHorizon = "6 months";
 
   return (
@@ -89,19 +90,19 @@ export default function Predictions() {
               <Brain className="w-6 h-6 text-aadhaar-purple" />
             </div>
             <span className="text-sm font-medium text-muted-foreground">
-              ML-Powered Predictions
+              Model-Based Projections
             </span>
             <Badge variant="outline" className="bg-aadhaar-purple/10 text-aadhaar-purple border-aadhaar-purple/30">
               <Sparkles className="w-3 h-3 mr-1" />
-              AI Enhanced
+              Projection (Model-Based)
             </Badge>
           </div>
           <h1 className="text-3xl font-bold font-display mb-2">
-            Predictive Analytics Dashboard
+            Enrollment Trend Projection Dashboard
           </h1>
           <p className="text-muted-foreground max-w-2xl">
-            Machine learning models forecasting enrollment trends, resource demands, and
-            saturation timelines. Confidence intervals and accuracy metrics included.
+            Model-based projections of enrollment trends, relative service load, and
+            enrollment plateau timelines. Based on historical patterns with model confidence indicators.
           </p>
 
           {/* Model Stats */}
@@ -110,10 +111,10 @@ export default function Predictions() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
                   <Target className="w-4 h-4" />
-                  Model Accuracy
+                  In-sample Fit Score
                 </div>
                 <p className="text-3xl font-bold font-display text-success">
-                  {modelAccuracy}%
+                  {inSampleFit}%
                 </p>
               </CardContent>
             </Card>
@@ -121,10 +122,10 @@ export default function Predictions() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
                   <Activity className="w-4 h-4" />
-                  Confidence Level
+                  Model Confidence Indicator
                 </div>
                 <p className="text-3xl font-bold font-display text-primary">
-                  {predictionConfidence}%
+                  {modelConfidence}%
                 </p>
               </CardContent>
             </Card>
@@ -132,7 +133,7 @@ export default function Predictions() {
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
                   <Calendar className="w-4 h-4" />
-                  Forecast Horizon
+                  Projection Horizon
                 </div>
                 <p className="text-3xl font-bold font-display">
                   {forecastHorizon}
@@ -168,16 +169,16 @@ export default function Predictions() {
       <div className="p-8 space-y-8">
         {/* Enrollment Forecast */}
         <ChartCard
-          title="Enrollment Forecast Model"
-          subtitle="ARIMA time-series prediction with 95% confidence intervals • Click for AI insights"
+          title="Enrollment Trend Projection Model"
+          subtitle="Time-series projection with model confidence bands • Click for AI insights"
           className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all"
           onClick={() =>
             setInsightModal({
               open: true,
-              title: "Enrollment Forecast Model",
+              title: "Enrollment Trend Projection Model",
               type: "time-series",
               description:
-                "ARIMA model predicting future enrollments with confidence bands based on historical patterns",
+                "Model projecting future enrollments with confidence bands based on historical patterns. Assumes continuity of observed trends.",
               data: enrollmentForecast,
             })
           }
@@ -236,7 +237,7 @@ export default function Predictions() {
                   strokeWidth={3}
                   strokeDasharray="8 4"
                   dot={{ r: 5, fill: CHART_COLORS[0] }}
-                  name="Predicted"
+                  name="Projected"
                 />
                 <ReferenceLine
                   x="Jun 25"
@@ -247,29 +248,33 @@ export default function Predictions() {
               </ComposedChart>
             </ResponsiveContainer>
           </div>
+          <div className="mt-3 flex items-start gap-2 p-3 bg-muted/30 rounded text-xs text-muted-foreground">
+            <Info className="w-3 h-3 mt-0.5 shrink-0" />
+            <p>Projections are based on historical enrollment trends and assume continuity of observed patterns.</p>
+          </div>
         </ChartCard>
 
         {/* Decision Panel */}
         <DecisionPanel
-          insight="Model predicts 6.4M peak enrollments in August 2025, followed by seasonal decline. High confidence (87.5%) in Q3 projections."
-          policyAction="Pre-position 15% additional enrollment resources in high-growth states by July 2025"
-          operationalImpact="↑ 22% capacity utilization, ↓ 35% queue wait times during peak"
+          insight="Model projects enrollment volume trends based on observed patterns. Model confidence indicator at 87.5% for near-term projections."
+          policyAction="Monitor enrollment volumes against projected trends; adjust resource allocation based on observed deviations"
+          operationalImpact="Better alignment of resource planning with projected enrollment patterns"
           variant="default"
         />
 
         {/* Two Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* State Growth Predictions */}
+          {/* State Growth Projections */}
           <ChartCard
-            title="State Growth Rate Predictions"
-            subtitle="Predicted vs current enrollment growth rates • Click for insights"
+            title="State Growth Rate Projections (Model-Based)"
+            subtitle="Projected vs current enrollment growth rates • Click for insights"
             className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all"
             onClick={() =>
               setInsightModal({
                 open: true,
-                title: "State Growth Rate Predictions",
+                title: "State Growth Rate Projections",
                 type: "bar-chart",
-                description: "ML model comparing current and projected growth rates by state",
+                description: "Model comparing current and projected growth rates by state based on historical patterns",
                 data: stateGrowthPredictions,
               })
             }
@@ -290,7 +295,7 @@ export default function Predictions() {
                   />
                   <Legend />
                   <Bar dataKey="currentRate" name="Current %" fill={CHART_COLORS[0]} radius={[0, 4, 4, 0]} />
-                  <Bar dataKey="predictedRate" name="Predicted %" fill={CHART_COLORS[1]} radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="predictedRate" name="Projected %" fill={CHART_COLORS[1]} radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -302,23 +307,23 @@ export default function Predictions() {
                     <ArrowUpRight className="w-3 h-3" />
                     {(s.predictedRate - s.currentRate).toFixed(1)}%
                   </span>
-                  <span className="text-muted-foreground">({s.confidence}% conf)</span>
+                  <span className="text-muted-foreground">(high relative model confidence)</span>
                 </div>
               ))}
             </div>
           </ChartCard>
 
-          {/* Update Type Predictions */}
+          {/* Update Type Projections */}
           <ChartCard
-            title="Update Type Forecast"
-            subtitle="6-month prediction of demographic update distribution • Click for insights"
+            title="Update Type Projection"
+            subtitle="6-month projection of demographic update distribution • Click for insights"
             className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all"
             onClick={() =>
               setInsightModal({
                 open: true,
-                title: "Update Type Forecast",
+                title: "Update Type Projection",
                 type: "bar-chart",
-                description: "Predicting shifts in demographic update patterns over next 6 months",
+                description: "Projecting shifts in demographic update patterns over next 6 months based on observed trends",
                 data: updateTypePredictions,
               })
             }
@@ -339,7 +344,7 @@ export default function Predictions() {
                   />
                   <Legend />
                   <Bar dataKey="current" name="Current %" fill={CHART_COLORS[0]} radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="predicted6mo" name="6-Month Predicted %" fill={CHART_COLORS[3]} radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="predicted6mo" name="6-Month Projected %" fill={CHART_COLORS[3]} radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -359,17 +364,17 @@ export default function Predictions() {
 
         {/* Resource Demand & Saturation */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Resource Demand Forecast */}
+          {/* Relative Service Load Projection */}
           <ChartCard
-            title="Resource Demand Forecast"
-            subtitle="Projected operator and equipment requirements • Click for insights"
+            title="Relative Service Load Projection (Index-Based)"
+            subtitle="Projected relative service load trends • Click for insights"
             className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all"
             onClick={() =>
               setInsightModal({
                 open: true,
-                title: "Resource Demand Forecast",
+                title: "Relative Service Load Projection (Index-Based)",
                 type: "area-chart",
-                description: "Predicting infrastructure and personnel needs based on enrollment forecasts",
+                description: "Indexed relative service load trends based on enrollment projections. Values are relative indices, not absolute counts.",
                 data: resourceDemandForecast,
               })
             }
@@ -378,18 +383,18 @@ export default function Predictions() {
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={resourceDemandForecast || []}>
                   <defs>
-                    <linearGradient id="operatorsGrad" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="loadIndexGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor={CHART_COLORS[0]} stopOpacity={0.3} />
                       <stop offset="95%" stopColor={CHART_COLORS[0]} stopOpacity={0} />
                     </linearGradient>
-                    <linearGradient id="machinesGrad" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="peakGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor={CHART_COLORS[2]} stopOpacity={0.3} />
                       <stop offset="95%" stopColor={CHART_COLORS[2]} stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                  <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} label={{ value: "Relative Index", angle: -90, position: "insideLeft", fill: "hsl(var(--muted-foreground))", fontSize: 11 }} />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: "hsl(var(--card))",
@@ -400,27 +405,20 @@ export default function Predictions() {
                   <Legend />
                   <Area
                     type="monotone"
-                    dataKey="operators"
-                    name="Operators Needed"
-                    stroke={CHART_COLORS[0]}
-                    fill="url(#operatorsGrad)"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="machines"
-                    name="Machines Needed"
+                    dataKey="peakLoad"
+                    name="Peak Load Index"
                     stroke={CHART_COLORS[2]}
-                    fill="url(#machinesGrad)"
+                    fill="url(#peakGrad)"
                   />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
           </ChartCard>
 
-          {/* Saturation Timeline */}
+          {/* Projected Enrollment Plateau Timeline */}
           <ChartCard
-            title="100% Coverage Saturation Timeline"
-            subtitle="Predicted dates for achieving universal enrollment by region"
+            title="Projected Enrollment Plateau Timeline"
+            subtitle="Projected dates for diminishing marginal enrollment by region"
           >
             <div className="space-y-4">
               {(saturationPredictions || []).map((region: any) => (
@@ -437,10 +435,14 @@ export default function Predictions() {
                   </div>
                   <Progress value={region.currentCoverage} className="h-2" />
                   <p className="text-xs text-muted-foreground">
-                    {region.daysRemaining} days to 100% coverage
+                    ~{region.daysRemaining} days to projected enrollment plateau
                   </p>
                 </div>
               ))}
+              <div className="flex items-start gap-2 p-3 bg-muted/30 rounded text-xs text-muted-foreground">
+                <Info className="w-3 h-3 mt-0.5 shrink-0" />
+                <p>Plateau indicates diminishing marginal enrollment, not universal coverage. Enrollment saturation is a proxy metric.</p>
+              </div>
             </div>
           </ChartCard>
         </div>
@@ -448,19 +450,19 @@ export default function Predictions() {
         {/* Compact Decision Panels */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <CompactDecisionPanel
-            insight="Bihar shows highest growth acceleration (+3.8%)"
-            policyAction="Allocate 20% additional enrollment camps"
-            impact="↑ 40% coverage velocity"
+            insight="Bihar shows highest growth acceleration in enrollment trends"
+            policyAction="Monitor enrollment infrastructure capacity"
+            impact="Better resource alignment"
           />
           <CompactDecisionPanel
-            insight="Biometric updates to surge 47% in 6 months"
-            policyAction="Upgrade biometric capture devices proactively"
-            impact="↓ 25% update backlog"
+            insight="Biometric update volumes projected to increase in near-term"
+            policyAction="Plan for increased update processing capacity"
+            impact="Reduced processing delays"
           />
           <CompactDecisionPanel
-            insight="August peak requires 16,500 operators"
-            policyAction="Begin operator training program by May"
-            impact="↑ 99% service readiness"
+            insight="Seasonal enrollment patterns observed in historical data"
+            policyAction="Align staffing with projected seasonal patterns"
+            impact="Improved service readiness"
           />
         </div>
 
@@ -486,7 +488,7 @@ export default function Predictions() {
                 <p className="text-xl font-bold">186,245</p>
               </div>
               <div className="p-3 bg-background/50 rounded-lg">
-                <p className="text-xs text-muted-foreground mb-1">R² Score</p>
+                <p className="text-xs text-muted-foreground mb-1">R² (In-sample Fit)</p>
                 <p className="text-xl font-bold text-success">0.942</p>
               </div>
               <div className="p-3 bg-background/50 rounded-lg">

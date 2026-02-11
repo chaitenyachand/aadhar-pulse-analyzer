@@ -113,10 +113,10 @@ export default function BiometricLifecycle() {
           <div className="p-2 rounded-lg bg-success-foreground/10 backdrop-blur">
             <Fingerprint className="w-6 h-6" />
           </div>
-          <h1 className="text-3xl font-bold font-display">Biometric Lifecycle Monitor</h1>
+          <h1 className="text-3xl font-bold font-display">Biometric Update Lifecycle Monitor</h1>
         </div>
         <p className="text-success-foreground/80 max-w-2xl">
-          Age-based biometric patterns, failure prediction, and elderly care service planning
+          Age-based biometric update patterns, re-capture frequency projection, and service planning
         </p>
       </div>
 
@@ -166,9 +166,9 @@ export default function BiometricLifecycle() {
 
         {/* Decision Panel */}
         <DecisionPanel
-          insight="60+ age group shows 55% lower fingerprint success rate due to worn ridges in agricultural regions"
-          policyAction="Deploy iris-primary authentication for elderly and implement doorstep biometric services in rural areas"
-          operationalImpact="↑ 28% elderly authentication success, ↓ 45% re-attempt rates"
+          insight="60+ age group shows higher biometric update frequency, suggesting potential need for age-specific modality preferences in update workflows"
+          policyAction="Investigate iris-primary update workflows for elderly population; plan doorstep biometric update services in rural areas"
+          operationalImpact="Potential ↑ in update completion rates for elderly, ↓ re-attempt rates"
           variant="success"
         />
 
@@ -221,11 +221,11 @@ export default function BiometricLifecycle() {
 
           {/* Monthly Success Rate Trend */}
           <ChartCard
-            title="Monthly Biometric Performance"
-            subtitle="Update volume and success rate trends • Click for insights"
+            title="Monthly Biometric Update Trends"
+            subtitle="Update volume and observed interaction rate trends • Click for insights"
             onClick={() => setInsightModal({
               open: true,
-              title: "Monthly Biometric Performance",
+              title: "Monthly Biometric Update Trends",
               type: "area-chart",
               description: "Monthly biometric update trends and success rates",
               data: monthlyBiometric,
@@ -285,13 +285,13 @@ export default function BiometricLifecycle() {
 
         {/* Age-Biometric Matrix */}
         <ChartCard
-          title="Age-Biometric Success Matrix"
-          subtitle="Modality effectiveness by age group • Click for insights"
+          title="Age-Biometric Update Pattern Matrix"
+          subtitle="Modality distribution by age group (observed interaction rates) • Click for insights"
           onClick={() => setInsightModal({
             open: true,
-            title: "Age-Biometric Success Matrix",
+            title: "Age-Biometric Update Pattern Matrix",
             type: "stacked-bar-chart",
-            description: "How different age groups succeed with different biometric modalities",
+            description: "How different age groups distribute across biometric modalities for updates",
             data: ageBasedPatterns,
           })}
         >
@@ -325,9 +325,9 @@ export default function BiometricLifecycle() {
 
         {/* Decision Panel */}
         <DecisionPanel
-          insight="Children 0-5 years rely 80% on face recognition due to undeveloped fingerprints; this shifts to 85% fingerprint by age 18-40"
-          policyAction="Implement age-aware modality selection in enrollment software to automatically prefer optimal modality"
-          operationalImpact="↑ 15% first-attempt success rate, ↓ 25% enrollment time"
+          insight="Children 0-5 years show predominantly face-based updates due to undeveloped fingerprints; this shifts to fingerprint-dominant by age 18-40"
+          policyAction="Consider age-aware modality selection in update workflows to align with observed patterns"
+          operationalImpact="Potential ↑ in first-attempt update completion, ↓ enrollment processing time"
           variant="accent"
         />
 
@@ -335,13 +335,13 @@ export default function BiometricLifecycle() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Failure Prediction */}
           <ChartCard
-            title="Biometric Failure Prediction"
-            subtitle="Districts at risk of high failure rates • Click for insights"
+            title="Biometric Update Frequency Anomaly by State"
+            subtitle="States showing unusual biometric update frequency patterns • Click for insights"
             onClick={() => setInsightModal({
               open: true,
-              title: "Biometric Failure Prediction",
+              title: "Biometric Update Frequency Anomaly by State",
               type: "bar-chart",
-              description: "ML-predicted failure rates by district",
+              description: "States with notable deviations in biometric update frequency from expected patterns",
               data: failurePrediction,
             })}
           >
@@ -373,7 +373,7 @@ export default function BiometricLifecycle() {
                   />
                   <Legend />
                   <Bar dataKey="currentFailure" fill={CHART_COLORS[0]} name="Current Rate" radius={[0, 4, 4, 0]} />
-                  <Bar dataKey="predictedFailure" fill={CHART_COLORS[1]} name="Predicted (6mo)" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="predictedFailure" fill={CHART_COLORS[1]} name="Projected (6mo)" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -484,9 +484,9 @@ export default function BiometricLifecycle() {
 
         {/* Final Decision Panel */}
         <DecisionPanel
-          insight="Construction and agricultural workers show 35-42% fingerprint wear rates, requiring more frequent biometric updates"
-          policyAction="Implement occupation-aware update scheduling and prioritize iris/face for high-wear occupations"
-          operationalImpact="↓ 40% authentication failures in labor-intensive sectors"
+          insight="Construction and agricultural workers show higher biometric update frequency, suggesting occupation-based patterns in update needs"
+          policyAction="Consider occupation-aware update scheduling and modality preferences for high-frequency update groups"
+          operationalImpact="Potential ↓ in re-attempt rates for labor-intensive sector populations"
           variant="warning"
         />
       </div>
