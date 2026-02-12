@@ -116,53 +116,6 @@ export default function AnomalyDetection() {
             Includes biometric re-capture frequency projection by age group.
           </p>
 
-          {/* Alert Summary */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            <Card className="bg-destructive/5 backdrop-blur border-destructive/20">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 text-destructive text-sm mb-1">
-                  <XCircle className="w-4 h-4" />
-                  High Priority
-                </div>
-                <p className="text-3xl font-bold font-display text-destructive">
-                  {highAlerts}
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-warning/5 backdrop-blur border-warning/20">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 text-warning text-sm mb-1">
-                  <AlertTriangle className="w-4 h-4" />
-                  Medium Priority
-                </div>
-                <p className="text-3xl font-bold font-display text-warning">
-                  {mediumAlerts}
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-card/50 backdrop-blur border-border/50">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
-                  <Activity className="w-4 h-4" />
-                  Low Priority
-                </div>
-                <p className="text-3xl font-bold font-display">
-                  {lowAlerts}
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="bg-success/5 backdrop-blur border-success/20">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 text-success text-sm mb-1">
-                  <CheckCircle className="w-4 h-4" />
-                  System Status
-                </div>
-                <p className="text-2xl font-bold font-display text-success">
-                  {100 - (highAlerts * 10 + mediumAlerts * 5)}%
-                </p>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
 
@@ -174,45 +127,6 @@ export default function AnomalyDetection() {
 
       {/* Main Content */}
       <div className="p-8 space-y-8">
-        {/* Active Alerts */}
-        <ChartCard title="Active Volume Anomaly Alerts" subtitle="Detection of unusual deviations from expected enrollment and update patterns" actions={<Button variant="outline" size="sm" onClick={() => refetch()}>
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Refresh
-            </Button>} loading={isLoading}>
-          <div className="space-y-3">
-            {anomalyAlerts?.map((alert: any) => <div key={alert.id} className={`flex items-start gap-4 p-4 rounded-lg border ${getSeverityColor(alert.severity)}`}>
-                <div className="shrink-0 mt-0.5">
-                  {getSeverityIcon(alert.severity)}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Badge variant="outline" className={getSeverityColor(alert.severity)}>
-                      {alert.severity.toUpperCase()}
-                    </Badge>
-                    <span className="text-sm text-muted-foreground flex items-center gap-1">
-                      <MapPin className="w-3 h-3" />
-                      {alert.state}, {alert.district}
-                    </span>
-                  </div>
-                  <p className="font-medium">{alert.description}</p>
-                  <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      {new Date(alert.detected_at).toLocaleString()}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <TrendingUp className="w-3 h-3" />
-                      Deviation from expected: {alert.deviation_percentage}%
-                    </span>
-                  </div>
-                </div>
-                <Button variant="ghost" size="sm">
-                  Investigate
-                </Button>
-              </div>)}
-          </div>
-        </ChartCard>
-
         {/* Service Interaction Stability Trend */}
         <ChartCard title="Service Interaction Stability Trend (Derived Index)" subtitle="6-month trend of interaction stability indicators • Click for AI insights" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" onClick={() => setInsightModal({
         open: true,
@@ -249,10 +163,8 @@ export default function AnomalyDetection() {
         {/* Decision Panel */}
         <DecisionPanel insight="Synthetic stability index shows declining trend over 6 months, correlated with rising biometric update frequency anomaly in elderly population" policyAction="Investigate update frequency anomalies in 60+ age group; consider proactive biometric re-capture scheduling" operationalImpact="Potential ↑ in update completion rates through targeted outreach" variant="warning" />
 
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Biometric Re-capture Frequency Projection */}
-          <ChartCard title="Biometric Re-capture Frequency Projection by Age" subtitle="Projected 5-year biometric re-capture intensity by age group • Click for insights" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" onClick={() => setInsightModal({
+        {/* Biometric Re-capture Frequency Projection */}
+        <ChartCard title="Biometric Re-capture Frequency Projection by Age" subtitle="Projected 5-year biometric re-capture intensity by age group • Click for insights" className="cursor-pointer hover:ring-2 hover:ring-primary/20 transition-all" onClick={() => setInsightModal({
           open: true,
           title: "Biometric Re-capture Frequency Projection by Age",
           type: "bar-chart",
@@ -286,25 +198,7 @@ export default function AnomalyDetection() {
               <Info className="w-3 h-3 mt-0.5 shrink-0" />
               <p>Projection based on historical update patterns; not biometric quality measurement.</p>
             </div>
-          </ChartCard>
-
-          {/* Illustrative Policy Simulation */}
-          <ChartCard title="Illustrative Policy Simulation (Non-Data-Linked)" subtitle="Hypothetical scenario — not derived from Aadhaar datasets">
-            <div className="p-6 text-center text-muted-foreground">
-              <Info className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <h3 className="font-semibold text-foreground mb-2">Hypothetical Scenario Panel</h3>
-              <p className="text-sm max-w-md mx-auto mb-4">
-                This panel presents illustrative policy simulations. The scenarios shown are hypothetical 
-                and are <span className="font-semibold">not derived from Aadhaar datasets</span>.
-              </p>
-              <div className="bg-warning/10 border border-warning/20 rounded-lg p-3 text-xs text-warning max-w-sm mx-auto">
-                <AlertTriangle className="w-4 h-4 inline mr-1" />
-                No welfare scheme linkage data is available in this dataset.
-                Any correlations shown here are illustrative only.
-              </div>
-            </div>
-          </ChartCard>
-        </div>
+        </ChartCard>
 
         {/* Compact Decision Panels */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
