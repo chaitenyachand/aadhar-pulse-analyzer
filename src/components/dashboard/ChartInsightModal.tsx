@@ -195,7 +195,7 @@ export function ChartInsightModal({
                 <h3 className="font-semibold text-foreground">AI-Powered Insights</h3>
               </div>
               <Badge variant="secondary" className="text-xs">
-                Powered by Lovable AI
+                AI-Generated
               </Badge>
             </div>
 
